@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .font-script {
+    font-family: 'Great Vibes', 'Alex Brush', cursive;
+  }
+  .font-script-alex {
+    font-family: 'Alex Brush', 'Pinyon Script', cursive;
+  }
+  .font-script-pinyon {
+    font-family: 'Pinyon Script', cursive;
+  }
+  .font-serif-display {
+    font-family: 'Playfair Display', 'Cormorant Garamond', serif;
+  }
+  .font-sans-clean {
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  /* Clean Minimalism Double Border Frame */
+  .border-double-minimal {
+    border: 8px double #fcecec;
+  }
+  .border-double-thick {
+    border: 12px double #fcecec;
+  }
+}
+
+/* Clean Minimalism color theme custom scrollbars & textures */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #fdf2f2;
+}
+::-webkit-scrollbar-thumb {
+  background: #e29595;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #d48c8c;
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(1.5deg); }
+}
+
+@keyframes shimmer {
+  0% { opacity: 0.4; }
+  50% { opacity: 0.9; }
+  100% { opacity: 0.4; }
+}
+
+.animate-float {
+  animation: float-slow 7s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+

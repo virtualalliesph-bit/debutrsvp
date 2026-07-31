@@ -1,0 +1,148 @@
+import { EighteenItem, ScheduleItem, GuestWish } from '../types';
+
+export const EIGHTEEN_ROSES: EighteenItem[] = [
+  { id: 'r1', number: 1, name: 'Marcus Rose', relation: 'Father (First Dance)', note: 'Escorting Isabella for her first grand waltz', category: 'roses' },
+  { id: 'r2', number: 2, name: 'Alexander Rose', relation: 'Brother', note: 'Sharing a dance of childhood memories', category: 'roses' },
+  { id: 'r3', number: 3, name: 'Ethan Vance', relation: 'Grandfather', note: 'Guiding her with wisdom and grandfatherly love', category: 'roses' },
+  { id: 'r4', number: 4, name: 'Liam Carter', relation: 'Escort / Best Friend', note: 'Special companion for the debutante', category: 'roses' },
+  { id: 'r5', number: 5, name: 'Benjamin Hayes', relation: 'Cousin', note: 'Always there to bring joy and laughter', category: 'roses' },
+  { id: 'r6', number: 6, name: 'Lucas Sterling', relation: 'High School Friend', note: 'Study buddy and trusted confidant', category: 'roses' },
+  { id: 'r7', number: 7, name: 'Gabriel Ross', relation: 'Cousin', note: 'Partner in adventure and family trips', category: 'roses' },
+  { id: 'r8', number: 8, name: 'Noah Bennett', relation: 'Childhood Friend', note: 'Friendship since pre-school days', category: 'roses' },
+  { id: 'r9', number: 9, name: 'Julian Cole', relation: 'Uncle', note: 'Guiding light and supportive mentor', category: 'roses' },
+  { id: 'r10', number: 10, name: 'Sebastian Vance', relation: 'Classmate', note: 'Fellow music enthusiast and peer', category: 'roses' },
+  { id: 'r11', number: 11, name: 'Oliver Montgomery', relation: 'Family Friend', note: 'Lifelong family companion', category: 'roses' },
+  { id: 'r12', number: 12, name: 'Daniel Reed', relation: 'Godfather (Ninong)', note: 'Wishing strength and grace for her future', category: 'roses' },
+  { id: 'r13', number: 13, name: 'Samuel Brooks', relation: 'Cousin', note: 'Sharing warmth and joyful dances', category: 'roses' },
+  { id: 'r14', number: 14, name: 'Caleb Rivera', relation: 'Classmate', note: 'Art project partner and good friend', category: 'roses' },
+  { id: 'r15', number: 15, name: 'Anthony Cruz', relation: 'High School Friend', note: 'Sharing smiles and memorable times', category: 'roses' },
+  { id: 'r16', number: 16, name: 'Elijah Torres', relation: 'Cousin', note: 'Bringing warmth to the celebration', category: 'roses' },
+  { id: 'r17', number: 17, name: 'Matthew Diaz', relation: 'Family Friend', note: 'Honored participant in the waltz', category: 'roses' },
+  { id: 'r18', number: 18, name: 'Christopher Park', relation: 'High School Friend', note: 'Completing the 18 Rose waltz circle', category: 'roses' },
+];
+
+export const EIGHTEEN_CANDLES: EighteenItem[] = [
+  { id: 'c1', number: 1, name: 'Sophia Rose', relation: 'Mother', note: 'Illuminating Isabella’s path with endless unconditional love', category: 'candles' },
+  { id: 'c2', number: 2, name: 'Olivia Vance', relation: 'Grandmother', note: 'Passing down grace, faith, and family traditions', category: 'candles' },
+  { id: 'c3', number: 3, name: 'Emma Sterling', relation: 'Maid of Honor / Best Friend', note: 'Sharing secrets, dreams, and sisterhood', category: 'candles' },
+  { id: 'c4', number: 4, name: 'Charlotte Hayes', relation: 'Auntie Clara', note: 'Always inspiring wisdom and artistic passion', category: 'candles' },
+  { id: 'c5', number: 5, name: 'Amelia Bennett', relation: 'Cousin', note: 'Lighting the candle of courage and resilience', category: 'candles' },
+  { id: 'c6', number: 6, name: 'Chloe Rivera', relation: 'Childhood Friend', note: 'Reminding her of sweet childhood innocence', category: 'candles' },
+  { id: 'c7', number: 7, name: 'Ella Cruz', relation: 'High School Friend', note: 'Spreading warmth and positivity', category: 'candles' },
+  { id: 'c8', number: 8, name: 'Grace Torres', relation: 'Godmother (Ninang)', note: 'Offering guidance for a bright academic journey', category: 'candles' },
+  { id: 'c9', number: 9, name: 'Harper Diaz', relation: 'Cousin', note: 'Lighting the candle of happiness and humor', category: 'candles' },
+  { id: 'c10', number: 10, name: 'Lily Park', relation: 'Classmate', note: 'Wishing success in all creative endeavors', category: 'candles' },
+  { id: 'c11', number: 11, name: 'Evelyn Ross', relation: 'Aunt Evelyn', note: 'Blessing Isabella with health and joy', category: 'candles' },
+  { id: 'c12', number: 12, name: 'Abigail Brooks', relation: 'Family Friend', note: 'Encouraging kindness and empathy', category: 'candles' },
+  { id: 'c13', number: 13, name: 'Maya Lin', relation: 'High School Friend', note: 'Lighting the candle of lifelong adventure', category: 'candles' },
+  { id: 'c14', number: 14, name: 'Victoria Vance', relation: 'Cousin', note: 'Wishing her inner peace and self-assurance', category: 'candles' },
+  { id: 'c15', number: 15, name: 'Zoey Carter', relation: 'Classmate', note: 'Inspiring curiosity and broad horizons', category: 'candles' },
+  { id: 'c16', number: 16, name: 'Samantha Rose', relation: 'Sister', note: 'A sisterly light that never dims', category: 'candles' },
+  { id: 'c17', number: 17, name: 'Hannah Hayes', relation: 'Godmother (Ninang)', note: 'Offering blessings of prosperity and peace', category: 'candles' },
+  { id: 'c18', number: 18, name: 'Audrey Park', relation: 'Best Friend', note: 'The final candle of eternal friendship and hope', category: 'candles' },
+];
+
+export const EIGHTEEN_BUTTERFLIES: EighteenItem[] = [
+  { id: 'b1', number: 1, name: 'Mia Rose', relation: 'Cousin', note: 'Symbolizing transformation and blooming graceful freedom', category: 'butterflies' },
+  { id: 'b2', number: 2, name: 'Harper Vance', relation: 'Family Friend', note: 'Wishing wings to reach every lofty dream', category: 'butterflies' },
+  { id: 'b3', number: 3, name: 'Emily Sterling', relation: 'Classmate', note: 'Releasing gentle wishes of joy and discovery', category: 'butterflies' },
+  { id: 'b4', number: 4, name: 'Leah Bennett', relation: 'High School Friend', note: 'Embracing change with confidence and beauty', category: 'butterflies' },
+  { id: 'b5', number: 5, name: 'Aubrey Ross', relation: 'Cousin', note: 'Spreading color and joy wherever she goes', category: 'butterflies' },
+  { id: 'b6', number: 6, name: 'Eleanor Cole', relation: 'Family Friend', note: 'Symbolizing beauty unfolding in adulthood', category: 'butterflies' },
+  { id: 'b7', number: 7, name: 'Addison Rivera', relation: 'Classmate', note: 'Wishes for soaring higher than the clouds', category: 'butterflies' },
+  { id: 'b8', number: 8, name: 'Natalie Cruz', relation: 'High School Friend', note: 'Encouraging her unique artistic flutter', category: 'butterflies' },
+  { id: 'b9', number: 9, name: 'Brooklyn Torres', relation: 'Cousin', note: 'Bringing lightness and sweetness to her days', category: 'butterflies' },
+  { id: 'b10', number: 10, name: 'Paisley Diaz', relation: 'Friend', note: 'A token of metamorphosis into young adulthood', category: 'butterflies' },
+  { id: 'b11', number: 11, name: 'Skylar Brooks', relation: 'Classmate', note: 'Wishing gentle breeze under her wings', category: 'butterflies' },
+  { id: 'b12', number: 12, name: 'Violet Lin', relation: 'Family Friend', note: 'Celebrating her free and gentle spirit', category: 'butterflies' },
+  { id: 'b13', number: 13, name: 'Claire Vance', relation: 'Cousin', note: 'Symbol of hope, renewal, and new chapters', category: 'butterflies' },
+  { id: 'b14', number: 14, name: 'Aurora Carter', relation: 'High School Friend', note: 'Releasing delicate blessings of peace', category: 'butterflies' },
+  { id: 'b15', number: 15, name: 'Savannah Reed', relation: 'Classmate', note: 'Soaring with elegance and purpose', category: 'butterflies' },
+  { id: 'b16', number: 16, name: 'Bella Montgomery', relation: 'Family Friend', note: 'A butterfly gift of happiness and poise', category: 'butterflies' },
+  { id: 'b17', number: 17, name: 'Camila Rose', relation: 'Cousin', note: 'Wishing vibrant colors in all her pursuits', category: 'butterflies' },
+  { id: 'b18', number: 18, name: 'Penelope Sterling', relation: 'Childhood Friend', note: 'Final butterfly token of love and soaring high', category: 'butterflies' },
+];
+
+export const EIGHTEEN_BILLS: EighteenItem[] = [
+  { id: 'bi1', number: 1, name: 'Uncle Richard Rose', relation: 'Godfather (Ninong)', note: 'Providing seed financial foundation for her college dreams', category: 'bills' },
+  { id: 'bi2', number: 2, name: 'Auntie Victoria Vance', relation: 'Godmother (Ninang)', note: 'Wishing financial wisdom, independence, and abundance', category: 'bills' },
+  { id: 'bi3', number: 3, name: 'Ninong Robert Sterling', relation: 'Godfather (Ninong)', note: 'Supporting her future global travels and education', category: 'bills' },
+  { id: 'bi4', number: 4, name: 'Ninang Elizabeth Hayes', relation: 'Godmother (Ninang)', note: 'A gift of love and investment in her future business', category: 'bills' },
+  { id: 'bi5', number: 5, name: 'Ninong James Bennett', relation: 'Godfather (Ninong)', note: 'Blessings of prosperity and career achievements', category: 'bills' },
+  { id: 'bi6', number: 6, name: 'Ninang Catherine Ross', relation: 'Godmother (Ninang)', note: 'Treasure envelope towards her personal goals', category: 'bills' },
+  { id: 'bi7', number: 7, name: 'Uncle David Cole', relation: 'Uncle', note: 'Helping build her future savings reserve', category: 'bills' },
+  { id: 'bi8', number: 8, name: 'Aunt Margaret Rivera', relation: 'Aunt', note: 'Wishing security and boundless opportunities', category: 'bills' },
+  { id: 'bi9', number: 9, name: 'Ninong Joseph Cruz', relation: 'Godfather (Ninong)', note: 'Gift for her upcoming university books & tools', category: 'bills' },
+  { id: 'bi10', number: 10, name: 'Ninang Maria Torres', relation: 'Godmother (Ninang)', note: 'Wishing her financial freedom and wise choices', category: 'bills' },
+  { id: 'bi11', number: 11, name: 'Uncle Thomas Diaz', relation: 'Uncle', note: 'Investing in Isabella’s lifelong passions', category: 'bills' },
+  { id: 'bi12', number: 12, name: 'Aunt Jennifer Park', relation: 'Aunt', note: 'A blessing for her future travels', category: 'bills' },
+  { id: 'bi13', number: 13, name: 'Ninong Charles Brooks', relation: 'Godfather (Ninong)', note: 'Prosperity gift for her journey ahead', category: 'bills' },
+  { id: 'bi14', number: 14, name: 'Ninang Susan Lin', relation: 'Godmother (Ninang)', note: 'Wishing success in all financial endeavors', category: 'bills' },
+  { id: 'bi15', number: 15, name: 'Uncle George Vance', relation: 'Uncle', note: 'Building blocks for her future independence', category: 'bills' },
+  { id: 'bi16', number: 16, name: 'Aunt Patricia Carter', relation: 'Aunt', note: 'A token of love and future stability', category: 'bills' },
+  { id: 'bi17', number: 17, name: 'Ninong Edward Reed', relation: 'Godfather (Ninong)', note: 'Wishing continuous blessings of wealth and health', category: 'bills' },
+  { id: 'bi18', number: 18, name: 'Ninang Helen Montgomery', relation: 'Godmother (Ninang)', note: 'Final monetary treasure envelope for Isabella Rose', category: 'bills' },
+];
+
+export const SCHEDULE_ITEMS: ScheduleItem[] = [
+  {
+    time: '5:00 PM',
+    title: 'Guest Arrival & Welcome Refreshments',
+    description: 'Welcome to the Botanical Foyer of The Grand Gardens. Enjoy artisan mocktails, violins serenade, and memory photo wall.',
+    iconName: 'Sparkles',
+  },
+  {
+    time: '6:00 PM',
+    title: 'Grand Entrance of Isabella Rose',
+    description: 'Welcoming the debutante in her royal floral blush ballgown alongside her parents and court of honor.',
+    iconName: 'Crown',
+  },
+  {
+    time: '6:30 PM',
+    title: 'Formal Banquet & Dinner',
+    description: 'A exquisite semi-formal gourmet course dinner accompanied by live acoustic harp and piano performances.',
+    iconName: 'Utensils',
+  },
+  {
+    time: '7:30 PM',
+    title: 'The 18 Traditions Program',
+    description: 'Featuring the 18 Roses waltz dance, 18 Candles speeches, 18 Butterflies ceremonial release, and 18 Bills presentations.',
+    iconName: 'Heart',
+  },
+  {
+    time: '9:00 PM',
+    title: 'Grand Cake Cutting & Champagne Toast',
+    description: 'Singing the 18th Birthday song, cutting the 4-tier floral birthday cake, and lifting glasses to Isabella.',
+    iconName: 'Wine',
+  },
+  {
+    time: '9:30 PM - Late',
+    title: 'Open Dance Floor & Celebration Party',
+    description: 'DJ & live music band opening the dance floor for all guests to celebrate and dance the night away.',
+    iconName: 'Music',
+  },
+];
+
+export const SAMPLE_WISHES: GuestWish[] = [
+  {
+    id: 'w1',
+    name: 'Auntie Clara & Uncle David',
+    relationship: 'Aunt & Uncle',
+    message: 'Happy 18th Birthday, our dearest Isabella! May your life always bloom with happiness, grace, and love. We are so proud of the fine young woman you have become!',
+    date: 'June 10, 2027',
+  },
+  {
+    id: 'w2',
+    name: 'Emma Sterling',
+    relationship: 'Best Friend',
+    message: 'To my bestie forever, Bella! Happy 18th Debut! I cannot wait to dance the night away and watch you step into this exciting new chapter. Love you always!',
+    date: 'June 11, 2027',
+  },
+  {
+    id: 'w3',
+    name: 'Ninong Robert',
+    relationship: 'Godfather',
+    message: 'Dearest Isabella, may your 18th year bring you closer to all your biggest aspirations. Always keep your heart kind and your vision bright. Cheers to 18!',
+    date: 'June 11, 2027',
+  },
+];
