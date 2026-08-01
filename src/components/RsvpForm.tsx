@@ -46,24 +46,32 @@ export const RsvpForm: React.FC = () => {
     };
 
     try {
-      // Create URLSearchParams payload for Google Apps Script Web App
-      const params = new URLSearchParams();
-      params.append('fullName', formData.fullName);
-      params.append('name', formData.fullName);
-      params.append('phone', formData.phone);
-      params.append('email', formData.email || '');
-      params.append('guestCount', String(formData.guestCount));
-      params.append('message', formData.message || '');
-      params.append('timestamp', submissionRecord.timestamp);
+      const payload = {
+        fullName: formData.fullName,
+        name: formData.fullName,
+        Name: formData.fullName,
+        phone: formData.phone,
+        Phone: formData.phone,
+        'Phone Number': formData.phone,
+        email: formData.email || '',
+        Email: formData.email || '',
+        'Email (Optional)': formData.email || '',
+        guestCount: formData.guestCount,
+        noOfGuest: formData.guestCount,
+        'No of guest': formData.guestCount,
+        message: formData.message || '',
+        'Special Wish': formData.message || '',
+        'Special Wish or Birthday Message for Isabella Rose': formData.message || '',
+        timestamp: submissionRecord.timestamp,
+        Timestamp: submissionRecord.timestamp,
+      };
 
-      // Send POST request using mode: 'no-cors' to avoid browser CORS restrictions with Google Apps Script
       await fetch(GOOGLE_SHEET_RSVP_URL, {
         method: 'POST',
-        mode: 'no-cors',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'text/plain;charset=utf-8',
         },
-        body: params.toString(),
+        body: JSON.stringify(payload),
       });
 
       // Save local record
