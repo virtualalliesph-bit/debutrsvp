@@ -60,4 +60,27 @@
   animation: shimmer 3s ease-in-out infinite;
 }
 
+@media print {
+  body {
+    background: #ffffff !important;
+  }
+  body * {
+    visibility: hidden;
+  }
+  .printable-pass, .printable-pass * {
+    visibility: visible;
+  }
+  .printable-pass {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    box-shadow: none !important;
+    border: 2px solid #e29595 !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
+
 

@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Send, CheckCircle, Heart, Sparkles, User, Mail, Phone, Users, MessageSquare, AlertCircle, RefreshCw, Printer } from 'lucide-react';
+import { Send, CheckCircle, Heart, User, Mail, Phone, Users, MessageSquare, AlertCircle, RefreshCw, Printer, Calendar, MapPin } from 'lucide-react';
 import { RsvpSubmission } from '../types';
+import isabellaPortrait from '../assets/images/isabella_portrait_1785530054069.jpg';
 
 const GOOGLE_SHEET_RSVP_URL = 'https://script.google.com/macros/s/AKfycbzY8Qb_jq6K7iQ2ynqEz8GYAWzfXM08HUsJat5LOx3rh2RBIV1CIAcPg6AzIUCZeECl/exec';
 
 export const RsvpForm: React.FC = () => {
   const [formData, setFormData] = useState({
     fullName: '',
-    email: '',
     phone: '',
-    attendance: 'attending' as 'attending' | 'declined',
+    email: '',
     guestCount: 1,
-    dietary: '',
-    honorCategory: 'Not part of 18',
     message: '',
   });
 
@@ -34,8 +32,8 @@ export const RsvpForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.fullName.trim() || !formData.email.trim()) {
-      setErrorMessage('Please fill in your Full Name and Email Address.');
+    if (!formData.fullName.trim() || !formData.phone.trim()) {
+      setErrorMessage('Please fill in your Name and Phone Number.');
       return;
     }
 
@@ -52,13 +50,10 @@ export const RsvpForm: React.FC = () => {
       const params = new URLSearchParams();
       params.append('fullName', formData.fullName);
       params.append('name', formData.fullName);
-      params.append('email', formData.email);
       params.append('phone', formData.phone);
-      params.append('attendance', formData.attendance);
+      params.append('email', formData.email || '');
       params.append('guestCount', String(formData.guestCount));
-      params.append('dietary', formData.dietary);
-      params.append('honorCategory', formData.honorCategory);
-      params.append('message', formData.message);
+      params.append('message', formData.message || '');
       params.append('timestamp', submissionRecord.timestamp);
 
       // Send POST request using mode: 'no-cors' to avoid browser CORS restrictions with Google Apps Script
@@ -66,7 +61,7 @@ export const RsvpForm: React.FC = () => {
         method: 'POST',
         mode: 'no-cors',
         headers: {
-          'Content-Type': 'application/x-www-[#5C2E3B]-form-urlencoded',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: params.toString(),
       });
@@ -76,7 +71,7 @@ export const RsvpForm: React.FC = () => {
       setSubmissionSuccess(submissionRecord);
     } catch (err) {
       console.error('RSVP Submission error:', err);
-      // Even if network mode no-cors succeeds silently, save locally
+      // Save locally as fallback
       localStorage.setItem('isabella_debut_rsvp', JSON.stringify(submissionRecord));
       setSubmissionSuccess(submissionRecord);
     } finally {
@@ -89,12 +84,9 @@ export const RsvpForm: React.FC = () => {
     setSubmissionSuccess(null);
     setFormData({
       fullName: '',
-      email: '',
       phone: '',
-      attendance: 'attending',
+      email: '',
       guestCount: 1,
-      dietary: '',
-      honorCategory: 'Not part of 18',
       message: '',
     });
   };
@@ -112,76 +104,152 @@ export const RsvpForm: React.FC = () => {
             RSVP Invitation
           </h2>
           <p className="font-serif-display text-lg text-[#6d4c4c] italic mt-2">
-            Kindly confirm your presence by June 1st to help us prepare your table
+            Kindly confirm your presence to help us prepare your table
           </p>
         </div>
 
-        {/* Successful Submission Card */}
+        {/* Successful Submission Card & Printable Invitation Pass */}
         {submissionSuccess ? (
-          <div className="bg-white rounded-3xl border border-[#fcecec] p-8 sm:p-12 shadow-sm text-center space-y-6 animate-in fade-in duration-300">
+          <div className="bg-white rounded-3xl border border-[#fcecec] p-6 sm:p-10 shadow-sm text-center space-y-8 animate-in fade-in duration-300">
             
-            <div className="w-16 h-16 rounded-full bg-[#fdf2f2] text-[#d48c8c] mx-auto flex items-center justify-center border border-[#fcecec] shadow-xs">
-              <CheckCircle className="w-8 h-8 text-[#e29595]" />
-            </div>
+            <div className="no-print">
+              <div className="w-14 h-14 rounded-full bg-[#fdf2f2] text-[#d48c8c] mx-auto flex items-center justify-center border border-[#fcecec] shadow-xs mb-3">
+                <CheckCircle className="w-7 h-7 text-[#e29595]" />
+              </div>
 
-            <div>
               <span className="font-sans-clean text-xs font-medium text-[#d48c8c] tracking-[0.2em] uppercase">
-                RSVP Response Recorded
+                RSVP Confirmation Recorded
               </span>
-              <h3 className="font-serif-display text-3xl sm:text-4xl text-[#d48c8c] font-medium mt-1">
+              <h3 className="font-serif-display text-3xl text-[#d48c8c] font-medium mt-1">
                 Thank You, {submissionSuccess.fullName}!
               </h3>
               <p className="font-serif-display text-base text-[#6d4c4c] mt-2">
-                {submissionSuccess.attendance === 'attending'
-                  ? `We are delighted that you will join Isabella Rose's 18th Birthday Debut at The Grand Gardens on June 12th!`
-                  : `Thank you for letting us know. We will miss you at the celebration!`}
+                We are delighted that you will join Isabella Rose's 18th Birthday Debut celebration!
               </p>
             </div>
 
-            {/* Digital Pass / Ticket Summary */}
-            <div className="bg-[#fdf2f2]/60 border border-[#fcecec] rounded-2xl p-6 text-left max-w-lg mx-auto space-y-3">
-              <div className="flex items-center justify-between border-b border-[#f5e6e6] pb-3">
-                <span className="font-serif-display text-lg font-semibold text-[#6d4c4c]">
-                  Isabella Rose Debut Pass
-                </span>
-                <span className="font-sans-clean text-[11px] bg-white border border-[#fcecec] text-[#d48c8c] px-2.5 py-0.5 rounded-full font-medium">
-                  {submissionSuccess.attendance === 'attending' ? 'CONFIRMED' : 'DECLINED'}
+            {/* Official Printable Invitation Card / Pass */}
+            <div className="printable-pass bg-[#ffffff] border-2 border-[#e29595] rounded-3xl p-6 sm:p-8 text-left max-w-xl mx-auto space-y-6 shadow-sm relative overflow-hidden">
+              
+              {/* Header Badge */}
+              <div className="flex items-center justify-between border-b border-[#f5e6e6] pb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-[#fdf2f2] border border-[#e29595] flex items-center justify-center text-[#d48c8c] font-serif-display font-bold text-lg">
+                    IR
+                  </div>
+                  <div>
+                    <h4 className="font-serif-display text-xl font-semibold text-[#6d4c4c]">
+                      Isabella Rose
+                    </h4>
+                    <p className="font-sans-clean text-[10px] text-[#d48c8c] uppercase tracking-[0.2em]">
+                      18th Birthday Debut Invitation Pass
+                    </p>
+                  </div>
+                </div>
+                <span className="font-sans-clean text-[10px] bg-[#fdf2f2] border border-[#e29595] text-[#d48c8c] px-3 py-1 rounded-full font-medium tracking-wider uppercase">
+                  CONFIRMED GUEST
                 </span>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 text-xs font-sans-clean text-[#6d4c4c]">
-                <div>
-                  <span className="text-[#d48c8c] block">Guest Name:</span>
-                  <strong className="text-[#6d4c4c]">{submissionSuccess.fullName}</strong>
+              {/* Celebrant Photo & Event Details */}
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center">
+                
+                {/* Celebrant Photo */}
+                <div className="sm:col-span-4 flex justify-center">
+                  <div className="w-32 h-32 sm:w-36 sm:h-36 rounded-2xl overflow-hidden border-2 border-[#fcecec] shadow-xs">
+                    <img
+                      src={isabellaPortrait}
+                      alt="Isabella Rose Debutante"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <span className="text-[#d48c8c] block">Email:</span>
-                  <strong className="text-[#6d4c4c]">{submissionSuccess.email}</strong>
+
+                {/* Event Date, Time & Venue */}
+                <div className="sm:col-span-8 space-y-3">
+                  <div className="flex items-start gap-2.5">
+                    <Calendar className="w-4 h-4 text-[#e29595] shrink-0 mt-0.5" />
+                    <div>
+                      <span className="font-sans-clean text-[10px] uppercase tracking-[0.15em] text-[#d48c8c] block">
+                        Date & Time
+                      </span>
+                      <strong className="font-serif-display text-base text-[#6d4c4c] block">
+                        Saturday, June 12, 2027
+                      </strong>
+                      <span className="font-sans-clean text-xs text-[#6d4c4c]/80">
+                        5:00 PM in the Evening
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-2.5">
+                    <MapPin className="w-4 h-4 text-[#e29595] shrink-0 mt-0.5" />
+                    <div>
+                      <span className="font-sans-clean text-[10px] uppercase tracking-[0.15em] text-[#d48c8c] block">
+                        Location & Venue
+                      </span>
+                      <strong className="font-serif-display text-base text-[#6d4c4c] block">
+                        The Grand Gardens
+                      </strong>
+                      <span className="font-sans-clean text-xs text-[#6d4c4c]/80">
+                        Botanical Pavilion • 18 Royal Rose Boulevard
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <span className="text-[#d48c8c] block">Seats Reserved:</span>
-                  <strong className="text-[#6d4c4c]">{submissionSuccess.guestCount} Guest(s)</strong>
-                </div>
-                <div>
-                  <span className="text-[#d48c8c] block">Program Role:</span>
-                  <strong className="text-[#6d4c4c]">{submissionSuccess.honorCategory}</strong>
-                </div>
+
               </div>
 
-              {submissionSuccess.message && (
-                <div className="pt-2 border-t border-[#f5e6e6] text-xs italic text-[#6d4c4c]/80">
-                  "{submissionSuccess.message}"
+              {/* Guest Information Section */}
+              <div className="bg-[#fdf2f2]/60 rounded-2xl p-4 border border-[#fcecec] space-y-3">
+                <span className="font-sans-clean text-[10px] uppercase tracking-[0.2em] text-[#d48c8c] font-medium block border-b border-[#f5e6e6] pb-1.5">
+                  Guest Information
+                </span>
+
+                <div className="grid grid-cols-2 gap-3 text-xs font-sans-clean text-[#6d4c4c]">
+                  <div>
+                    <span className="text-[#d48c8c] text-[10px] uppercase tracking-wider block">Name:</span>
+                    <strong className="text-[#6d4c4c] text-sm">{submissionSuccess.fullName}</strong>
+                  </div>
+                  <div>
+                    <span className="text-[#d48c8c] text-[10px] uppercase tracking-wider block">No of guest:</span>
+                    <strong className="text-[#6d4c4c] text-sm">{submissionSuccess.guestCount} Guest(s)</strong>
+                  </div>
+                  <div>
+                    <span className="text-[#d48c8c] text-[10px] uppercase tracking-wider block">Phone Number:</span>
+                    <span className="text-[#6d4c4c]">{submissionSuccess.phone}</span>
+                  </div>
+                  <div>
+                    <span className="text-[#d48c8c] text-[10px] uppercase tracking-wider block">Email:</span>
+                    <span className="text-[#6d4c4c]">{submissionSuccess.email || 'N/A'}</span>
+                  </div>
                 </div>
-              )}
+
+                {submissionSuccess.message && (
+                  <div className="pt-2 border-t border-[#f5e6e6] text-xs italic text-[#6d4c4c]/80">
+                    <span className="text-[#d48c8c] text-[10px] uppercase tracking-wider block not-italic">
+                      Special Wish / Birthday Message:
+                    </span>
+                    "{submissionSuccess.message}"
+                  </div>
+                )}
+              </div>
+
+              <div className="text-center pt-1 border-t border-[#f5e6e6]">
+                <p className="font-serif-display text-xs italic text-[#6d4c4c]/70">
+                  "Please present this pass upon arrival at the venue receptionist counter."
+                </p>
+              </div>
+
             </div>
 
             {/* Actions */}
-            <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+            <div className="no-print flex flex-wrap items-center justify-center gap-4 pt-2">
               <button
                 onClick={() => window.print()}
-                className="px-6 py-2.5 rounded-full bg-white border border-[#fcecec] text-[#6d4c4c] hover:bg-[#fdf2f2] hover:text-[#d48c8c] font-sans-clean text-xs font-medium tracking-[0.15em] uppercase transition-colors flex items-center gap-2 cursor-pointer"
+                className="px-6 py-2.5 rounded-full bg-[#e29595] text-white hover:bg-[#d48c8c] font-sans-clean text-xs font-medium tracking-[0.15em] uppercase transition-colors flex items-center gap-2 cursor-pointer shadow-xs"
               >
-                <Printer className="w-4 h-4 text-[#e29595]" />
+                <Printer className="w-4 h-4" />
                 <span>Print Invitation Pass</span>
               </button>
 
@@ -196,7 +264,7 @@ export const RsvpForm: React.FC = () => {
 
           </div>
         ) : (
-          /* Main RSVP Form */
+          /* Main RSVP Form - Updated strictly with requested 5 fields */
           <div className="bg-white rounded-3xl border border-[#fcecec] p-6 sm:p-10 shadow-sm relative overflow-hidden">
             
             {errorMessage && (
@@ -208,77 +276,19 @@ export const RsvpForm: React.FC = () => {
 
             <form onSubmit={handleSubmit} className="space-y-6">
               
-              {/* Attendance Choice Buttons */}
-              <div>
-                <label className="block font-sans-clean text-xs font-medium text-[#d48c8c] uppercase tracking-[0.15em] mb-3">
-                  Will you be celebrating with Isabella Rose? *
-                </label>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <button
-                    type="button"
-                    onClick={() => setFormData({ ...formData, attendance: 'attending' })}
-                    className={`p-4 rounded-2xl border text-left transition-all flex items-center gap-3 cursor-pointer ${
-                      formData.attendance === 'attending'
-                        ? 'bg-[#fdf2f2] border-[#e29595] text-[#d48c8c] ring-1 ring-[#e29595]'
-                        : 'bg-white border-[#fcecec] text-[#6d4c4c] hover:bg-[#fdf2f2]/50'
-                    }`}
-                  >
-                    <div className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 ${
-                      formData.attendance === 'attending' ? 'border-[#e29595] bg-[#e29595] text-white' : 'border-[#fcecec]'
-                    }`}>
-                      {formData.attendance === 'attending' && <CheckCircle className="w-3.5 h-3.5" />}
-                    </div>
-                    <div>
-                      <span className="font-serif-display font-semibold text-base block">
-                        Joyfully Accepts
-                      </span>
-                      <span className="font-sans-clean text-[11px] text-[#6d4c4c]/80">
-                        Yes, I will be attending the debut
-                      </span>
-                    </div>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setFormData({ ...formData, attendance: 'declined' })}
-                    className={`p-4 rounded-2xl border text-left transition-all flex items-center gap-3 cursor-pointer ${
-                      formData.attendance === 'declined'
-                        ? 'bg-[#fdf2f2] border-[#e29595] text-[#d48c8c] ring-1 ring-[#e29595]'
-                        : 'bg-white border-[#fcecec] text-[#6d4c4c] hover:bg-[#fdf2f2]/50'
-                    }`}
-                  >
-                    <div className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 ${
-                      formData.attendance === 'declined' ? 'border-[#e29595] bg-[#e29595] text-white' : 'border-[#fcecec]'
-                    }`}>
-                      {formData.attendance === 'declined' && <CheckCircle className="w-3.5 h-3.5" />}
-                    </div>
-                    <div>
-                      <span className="font-serif-display font-semibold text-base block">
-                        Regretfully Declines
-                      </span>
-                      <span className="font-sans-clean text-[11px] text-[#6d4c4c]/80">
-                        Unable to attend, sending love
-                      </span>
-                    </div>
-                  </button>
-                </div>
-              </div>
-
-              {/* Guest Details Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 
-                {/* Full Name */}
+                {/* 1. Name */}
                 <div>
                   <label className="block font-sans-clean text-xs font-medium text-[#d48c8c] uppercase tracking-[0.15em] mb-2">
-                    Full Name *
+                    Name *
                   </label>
                   <div className="relative">
                     <User className="w-4 h-4 text-[#d48c8c] absolute left-3.5 top-1/2 -translate-y-1/2" />
                     <input
                       type="text"
                       required
-                      placeholder="e.g., Alexander Rose"
+                      placeholder="Enter your full name"
                       value={formData.fullName}
                       onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                       className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#fdf2f2]/60 border border-[#fcecec] text-xs font-sans-clean text-[#6d4c4c] focus:outline-none focus:ring-2 focus:ring-[#e29595]/30 focus:border-[#e29595]"
@@ -286,34 +296,17 @@ export const RsvpForm: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Email Address */}
+                {/* 2. Phone Number */}
                 <div>
                   <label className="block font-sans-clean text-xs font-medium text-[#d48c8c] uppercase tracking-[0.15em] mb-2">
-                    Email Address *
-                  </label>
-                  <div className="relative">
-                    <Mail className="w-4 h-4 text-[#d48c8c] absolute left-3.5 top-1/2 -translate-y-1/2" />
-                    <input
-                      type="email"
-                      required
-                      placeholder="alexander@example.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#fdf2f2]/60 border border-[#fcecec] text-xs font-sans-clean text-[#6d4c4c] focus:outline-none focus:ring-2 focus:ring-[#e29595]/30 focus:border-[#e29595]"
-                    />
-                  </div>
-                </div>
-
-                {/* Phone Number */}
-                <div>
-                  <label className="block font-sans-clean text-xs font-medium text-[#d48c8c] uppercase tracking-[0.15em] mb-2">
-                    Contact Phone Number
+                    Phone Number *
                   </label>
                   <div className="relative">
                     <Phone className="w-4 h-4 text-[#d48c8c] absolute left-3.5 top-1/2 -translate-y-1/2" />
                     <input
                       type="tel"
-                      placeholder="+1 (555) 000-0000"
+                      required
+                      placeholder="Enter your phone number"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#fdf2f2]/60 border border-[#fcecec] text-xs font-sans-clean text-[#6d4c4c] focus:outline-none focus:ring-2 focus:ring-[#e29595]/30 focus:border-[#e29595]"
@@ -321,10 +314,27 @@ export const RsvpForm: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Number of Guests */}
+                {/* 3. Email (Optional) */}
                 <div>
                   <label className="block font-sans-clean text-xs font-medium text-[#d48c8c] uppercase tracking-[0.15em] mb-2">
-                    Number of Guests Attending
+                    Email (Optional)
+                  </label>
+                  <div className="relative">
+                    <Mail className="w-4 h-4 text-[#d48c8c] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="email"
+                      placeholder="Enter your email address (optional)"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#fdf2f2]/60 border border-[#fcecec] text-xs font-sans-clean text-[#6d4c4c] focus:outline-none focus:ring-2 focus:ring-[#e29595]/30 focus:border-[#e29595]"
+                    />
+                  </div>
+                </div>
+
+                {/* 4. No of guest */}
+                <div>
+                  <label className="block font-sans-clean text-xs font-medium text-[#d48c8c] uppercase tracking-[0.15em] mb-2">
+                    No of guest *
                   </label>
                   <div className="relative">
                     <Users className="w-4 h-4 text-[#d48c8c] absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -333,7 +343,7 @@ export const RsvpForm: React.FC = () => {
                       onChange={(e) => setFormData({ ...formData, guestCount: Number(e.target.value) })}
                       className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#fdf2f2]/60 border border-[#fcecec] text-xs font-sans-clean text-[#6d4c4c] focus:outline-none focus:ring-2 focus:ring-[#e29595]/30 focus:border-[#e29595] appearance-none"
                     >
-                      {[1, 2, 3, 4, 5].map((num) => (
+                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                         <option key={num} value={num}>
                           {num} Guest{num > 1 ? 's' : ''}
                         </option>
@@ -344,39 +354,7 @@ export const RsvpForm: React.FC = () => {
 
               </div>
 
-              {/* Program Role Honor Dropdown */}
-              <div>
-                <label className="block font-sans-clean text-xs font-medium text-[#d48c8c] uppercase tracking-[0.15em] mb-2">
-                  Are you a participant in the 18 Traditions Program?
-                </label>
-                <select
-                  value={formData.honorCategory}
-                  onChange={(e) => setFormData({ ...formData, honorCategory: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl bg-[#fdf2f2]/60 border border-[#fcecec] text-xs font-sans-clean text-[#6d4c4c] focus:outline-none focus:ring-2 focus:ring-[#e29595]/30 focus:border-[#e29595]"
-                >
-                  <option value="Not part of 18">General Guest (Not part of 18 list)</option>
-                  <option value="18 Roses">🌹 18 Roses Participant</option>
-                  <option value="18 Candles">🕯️ 18 Candles Participant</option>
-                  <option value="18 Butterflies">🦋 18 Butterflies Participant</option>
-                  <option value="18 Bills">💵 18 Bills / Treasures Participant</option>
-                </select>
-              </div>
-
-              {/* Dietary Restrictions */}
-              <div>
-                <label className="block font-sans-clean text-xs font-medium text-[#d48c8c] uppercase tracking-[0.15em] mb-2">
-                  Dietary Preferences / Allergies (Optional)
-                </label>
-                <input
-                  type="text"
-                  placeholder="e.g., Vegetarian, Gluten-Free, Seafood allergy"
-                  value={formData.dietary}
-                  onChange={(e) => setFormData({ ...formData, dietary: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl bg-[#fdf2f2]/60 border border-[#fcecec] text-xs font-sans-clean text-[#6d4c4c] focus:outline-none focus:ring-2 focus:ring-[#e29595]/30 focus:border-[#e29595]"
-                />
-              </div>
-
-              {/* Wishes & Message for Isabella */}
+              {/* 5. Special Wish or Birthday Message for Isabella Rose */}
               <div>
                 <label className="block font-sans-clean text-xs font-medium text-[#d48c8c] uppercase tracking-[0.15em] mb-2">
                   Special Wish or Birthday Message for Isabella Rose
@@ -385,7 +363,7 @@ export const RsvpForm: React.FC = () => {
                   <MessageSquare className="w-4 h-4 text-[#d48c8c] absolute left-3.5 top-3.5" />
                   <textarea
                     rows={4}
-                    placeholder="Write your heartfelt birthday wishes for Isabella..."
+                    placeholder="Write your heartfelt birthday wish or message for Isabella..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#fdf2f2]/60 border border-[#fcecec] text-xs font-sans-clean text-[#6d4c4c] focus:outline-none focus:ring-2 focus:ring-[#e29595]/30 focus:border-[#e29595]"
@@ -402,7 +380,7 @@ export const RsvpForm: React.FC = () => {
                 {isSubmitting ? (
                   <>
                     <RefreshCw className="w-4 h-4 animate-spin" />
-                    <span>Sending RSVP to Google Sheet...</span>
+                    <span>Saving RSVP Response...</span>
                   </>
                 ) : (
                   <>
@@ -413,7 +391,7 @@ export const RsvpForm: React.FC = () => {
               </button>
 
               <p className="text-center font-sans-clean text-[11px] text-[#6d4c4c]/70">
-                🔒 Responses are automatically recorded in Google Sheets.
+                🔒 Responses are saved and recorded in Google Sheets.
               </p>
 
             </form>

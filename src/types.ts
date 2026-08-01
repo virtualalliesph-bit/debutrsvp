@@ -18,13 +18,10 @@ export interface ScheduleItem {
 
 export interface RsvpSubmission {
   fullName: string;
-  email: string;
   phone: string;
-  attendance: 'attending' | 'declined';
+  email?: string;
   guestCount: number;
-  dietary: string;
-  honorCategory: string;
-  message: string;
+  message?: string;
   timestamp: string;
 }
 
