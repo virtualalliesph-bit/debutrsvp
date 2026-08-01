@@ -48,22 +48,11 @@ export const RsvpForm: React.FC = () => {
     try {
       const payload = {
         fullName: formData.fullName,
-        name: formData.fullName,
-        Name: formData.fullName,
         phone: formData.phone,
-        Phone: formData.phone,
-        'Phone Number': formData.phone,
         email: formData.email || '',
-        Email: formData.email || '',
-        'Email (Optional)': formData.email || '',
         guestCount: formData.guestCount,
-        noOfGuest: formData.guestCount,
-        'No of guest': formData.guestCount,
         message: formData.message || '',
-        'Special Wish': formData.message || '',
-        'Special Wish or Birthday Message for Isabella Rose': formData.message || '',
         timestamp: submissionRecord.timestamp,
-        Timestamp: submissionRecord.timestamp,
       };
 
       await fetch(GOOGLE_SHEET_RSVP_URL, {
